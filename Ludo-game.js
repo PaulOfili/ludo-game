@@ -44,7 +44,7 @@ function changePlayer() {
         case "blue": text.innerText = text.style.color = "yellow"; break;
         case "yellow": text.innerText = text.style.color = "green"; break;
         case "green": text.innerText = text.style.color = "red"; break;
-    }
+        }
     }
     var badtext = document.getElementById('badtext');
     badtext.innerText = "";
@@ -173,6 +173,7 @@ pushSteps(stepUp, stepsGreen,4);
 pushSteps(stepLeft, stepsGreen,4);
 pushSteps(stepUp, stepsGreen,1);
 pushSteps(stepRight, stepsGreen, 5);
+
 function ResetPawn(victim) {
     onboard[victim] = 0;
     positions[victim] = 0;
@@ -197,9 +198,13 @@ function ResetPawn(victim) {
 
     }
 }
+// index = 0;
 function randomNum() {
     if (!clicked) {
-        num = Math.floor((Math.random() * 6) + 1);;
+        num = Math.floor((Math.random() * 6) + 1);
+        // paul_new = [6,6,6,4,6,6,6,4,6];
+        // num = paul_new[index];
+        // index += 1;
         var dice = document.getElementById('dice');
         dice.style.backgroundImage = "url(Images/" + num + ".jpg)";
         clicked = true;
@@ -223,6 +228,7 @@ function randomMove(Color, paw) {
     else {
         if (clicked) {
             var position = currPos;
+            
             if (text.innerText == currcolor) {
                 if (onboard[currpawn] === 1 || num === 6) {
                     if (onboard[currpawn] === 0) {
@@ -250,6 +256,12 @@ function randomMove(Color, paw) {
                                 break;
                         }
                         onboard[currpawn] = 1;
+                        var victim = HaveHover();
+                        if (victim != false) {
+                            ResetPawn(victim);
+                            pawnOut[currcolor]++;
+                            document.getElementById(currpawn).style.visibility = "hidden";
+                        }
                     }
                     else {
                         switch (Color) {
@@ -281,8 +293,13 @@ function randomMove(Color, paw) {
                         var victim = HaveHover();
                         if (victim != false) {
                             ResetPawn(victim);
+                            pawnOut[currcolor]++;
+                            document.getElementById(currpawn).style.visibility = "hidden";
                         }
-                        if (currPos == 44) { pawnOut[currcolor]++; onboard[currpawn] = 0; positions[currpawn] = 0; document.getElementById(currpawn).style.visibility = "hidden"; };
+                        if (currPos == 44) { 
+                            pawnOut[currcolor]++; 
+                            onboard[currpawn] = 0; positions[currpawn] = 0; document.getElementById(currpawn).style.visibility = "hidden"; 
+                        };
                         CheckForWinner();
                         changePlayer();
                     }
